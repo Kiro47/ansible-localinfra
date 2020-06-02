@@ -1,0 +1,61 @@
+---
+- hosts: all
+  vars:
+    # Interestingly enough pulling from /dev/random is a permission denied error
+    # Most of the PRs on github on ansible also suggest using /dev/null.
+    # Will need to research more into this later
+    generated_passwd: "{{ lookup('password', '/dev/null length=47 chars=ascii_letters') }}"
+  gather_facts: no
+  remote_user: root
+  become: true
+
+  tasks:
+
+  - name: add a new user named ansible
+    user:
+      name: ansible
+      shell: /bin/bash
+      # If using a password file swap the commented out portions for 'password'
+      #password: "{{lookup('file', '../../.secrets/ansible-pass.crypt')}}"
+      password: "{{generated_passwd | password_hash('sha512')}}"
+
+  - name: Add ansible user to sudoers
+    copy:
+      dest: "/etc/sudoers.d/ansible"
+      content: "ansible ALL=(ALL) NOPASSWD: ALL"
+
+  - name: Drop in SSH key
+    authorized_key: user=ansible
+                    key="{{lookup('file', '../../.secrets/ansible_key.pub')}}"
+                    state=present
+  - name: Disable password auth
+    lineinfile:
+      dest="/etc/ssh/sshd_config"
+      regexp='^PasswordAuthentication'
+      line="PasswordAuthentication no"
+      state=present
+      backup=yes
+
+  - name: Limit root login
+    lineinfile:
+      dest="/etc/ssh/sshd_config"
+      regexp='^PermitRootLogin'
+      line='PermitRootLogin without-password'
+      state=present
+      backup=yes
+    notify:
+      - restart ssh - debian
+      - restart ssh - rhel
+
+  handlers:
+    - name: restart ssh - debian
+      service:
+        name=ssh
+        state=restarted
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - name: restart ssh - rhel
+      service:
+        name=sshd
+        state=restarted
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
