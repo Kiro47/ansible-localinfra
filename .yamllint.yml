@@ -1,0 +1,13 @@
+---
+# yamllint https://github.com/adrienverge/yamllint
+# Config file
+#
+extends: default
+
+rules:
+  # Line lengths can get pretty long
+  line-length:
+    max: 120
+    level: warning
+  # Ansible uses some yes/no values, default is true/false
+  truthy: {allowed-values: ["true", "false", "yes", "no"]}

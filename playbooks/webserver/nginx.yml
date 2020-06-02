@@ -58,4 +58,3 @@
       systemd:
         name: firewalld
         state: reloaded
-
