@@ -1,7 +1,7 @@
 ---
 - name: Webservers Role
   hosts: webserver
-  remote_user: root
+  remote_user: ansible
 
   roles:
     - nginx
