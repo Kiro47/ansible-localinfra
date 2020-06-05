@@ -1,0 +1,12 @@
+---
+- name: reload firewall - debian
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  systemd:
+    name: ufw
+    state: reloaded
+
+- name: reload firewall - rhel
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  systemd:
+    name: firewalld
+    state: reloaded
