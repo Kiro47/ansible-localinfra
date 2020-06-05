@@ -1,0 +1,19 @@
+---
+# Gives each host a role that is unique to their hostname
+- name: Host specific applications
+  hosts: all
+  remote_user: ansible
+  tasks:
+    # If this doesn't happen and the role folder doesn't exist
+    # it will fail
+  - name: Create host role if not existing
+    local_action:
+      module: file
+      path: "./{{ ansible_hostname }}"
+      state: directory
+
+    # Assign a host with it's own unique role based off
+    # of it's hostname.
+  - name: Select role
+    include_role:
+      name: "{{ ansible_hostname }}"

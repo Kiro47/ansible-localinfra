@@ -1,0 +1,5 @@
+---
+- name: Hello World Debug
+  copy:
+    content: "Hello World Debug"
+    dest: /tmp/hello_world.txt
