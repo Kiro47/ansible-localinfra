@@ -4,6 +4,9 @@
   template:
     src: "../templates/repos/yum/nginx.repo"
     dest: "/etc/yum.repos.d/nginx.repo"
+    owner: root
+    group: root
+    mode: 0600
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: install nginx
