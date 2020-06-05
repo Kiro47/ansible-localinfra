@@ -10,10 +10,9 @@
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: install nginx
-  yum:
+  dnf:
     name=nginx
     state=present
-    update_cache=yes
 
 - name: start and enable nginx
   service:

@@ -9,3 +9,7 @@
 - name: Disable SSH password login
   include_tasks: ./disable-ssh-password-login.yml
   when: ansible_system == "Linux"
+
+- name: Update package manager cache
+  include_tasks: ./update-cache.yml
+  when: ansible_system == "Linux"

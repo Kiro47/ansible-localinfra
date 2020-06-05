@@ -1,0 +1,16 @@
+---
+# Updates the package manager cache
+# This is used here instead of per install
+# so we only run the cache update once per host
+# instead of running it everytime we go to install
+# something ( a lot).
+
+- name: Update yum/dnf cache
+  dnf:
+    update_cache: yes
+  when: ansible_distribution == "CentOS" or ansible_distribution == "Red Hat Enterprise Linux"
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" or ansible_distribution == "Kali GNU/Linux"

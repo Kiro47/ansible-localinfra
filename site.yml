@@ -3,6 +3,8 @@
 - name: Run all playbooks
   hosts: all
   remote_user: root
+  vars_files:
+    - ./site.vars
 
 # All nodes
 - import_playbook: ./playbooks/generic/site.yml
