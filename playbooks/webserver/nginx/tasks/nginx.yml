@@ -1,9 +1,10 @@
 ---
 # Installs and basic setup for nginx
 - name: add nginx repo
-  copy:
+  template:
+    src: "../templates/repos/yum/nginx.repo"
     dest: "/etc/yum.repos.d/nginx.repo"
-    content: "{{lookup('file','../../files/repos/yum/nginx.repo')}}"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: install nginx
   yum:
