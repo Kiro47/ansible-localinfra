@@ -1,0 +1,11 @@
+---
+- name: Include ansible user setup
+  include_tasks: ./add-ansible-user-ssh.yml
+
+- name: Include local SSH key dropping
+  include_tasks: ./drop-personal-ssh-key.yml
+  when: ansible_system == "Linux"
+
+- name: Disable SSH password login
+  include_tasks: ./disable-ssh-password-login.yml
+  when: ansible_system == "Linux"

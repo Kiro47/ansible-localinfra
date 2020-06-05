@@ -1,0 +1,7 @@
+---
+- name: Generic requirements for all servers
+  hosts: all
+  remote_user: root
+
+  roles:
+    - common

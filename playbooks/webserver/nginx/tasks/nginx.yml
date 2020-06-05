@@ -1,0 +1,43 @@
+---
+# Installs and basic setup for nginx
+- name: add nginx repo
+  copy:
+    dest: "/etc/yum.repos.d/nginx.repo"
+    content: "{{lookup('file','../../files/repos/yum/nginx.repo')}}"
+
+- name: install nginx
+  yum:
+    name=nginx
+    state=present
+    update_cache=yes
+
+- name: start and enable nginx
+  service:
+    name=nginx
+    state=started
+    enabled=yes
+
+- name: (firewalld) Open firewall for nginx
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop:
+    - http
+    - https
+  notify:
+    - reload firewall - rhel
+
+- name: (ufw) Open firewall for nginx
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  ufw:
+    rule: allow
+    name: "{{ item }}"
+    proto: tcp
+  loop:
+    - 80
+    - 443
+  notify:
+    - reload firewall - debian

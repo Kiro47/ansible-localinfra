@@ -1,0 +1,11 @@
+---
+- name: restart ssh - debian
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Kali GNU/Linux'
+  service:
+      name=ssh
+      state=restarted
+- name: restart ssh - rhel
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  service:
+      name=sshd
+      state=restarted

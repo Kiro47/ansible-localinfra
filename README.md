@@ -1,5 +1,10 @@
 # Ansible infrastructure deployment
 
+# Running the playbooks on all nodes:
+```bash
+ansible-playbook ./site.yml
+```
+
 ### SSH keygen
 ```bash
 mkdir .secrets

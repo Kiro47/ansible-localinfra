@@ -1,0 +1,7 @@
+---
+# Drops in my personal local SSH key I use for general use
+- name: Drop in root SSH key
+  authorized_key:
+      user=root
+      key="{{lookup('file', '../../../../../../.ssh/localKey.pub')}}"
+      state=present

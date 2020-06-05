@@ -1,0 +1,10 @@
+---
+# Main playbook which runs all other playbooks
+- name: Run all playbooks
+  hosts: all
+  remote_user: root
+
+# All nodes
+- import_playbook: ./playbooks/generic/site.yml
+# Web nodes
+- import_playbook: ./playbooks/webserver/site.yml
