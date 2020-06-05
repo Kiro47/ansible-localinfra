@@ -1,0 +1,6 @@
+---
+- name: Install seboolean requirements
+  dnf:
+    name=python3-libsemanage
+    state=present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

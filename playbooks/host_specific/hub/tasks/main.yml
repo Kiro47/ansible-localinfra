@@ -1,3 +1,6 @@
 ---
-- name: Debug task
-  include_tasks: ./debug.yml
+- name: Configure nginx
+  include_tasks: ./configure_nginx.yml
+
+- name: Configure SE Linux
+  include_tasks: ./configure_selinux.yml

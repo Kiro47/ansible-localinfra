@@ -1,0 +1,13 @@
+---
+- name: Setup Nginx confs
+  template:
+    src: "../templates/{{ item }}"
+    dest: "/etc/nginx/conf.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - "005-pi-hole.conf"
+  notify:
+    - nginx - reload
+    - nginx - restart

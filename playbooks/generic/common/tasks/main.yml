@@ -13,3 +13,6 @@
 - name: Update package manager cache
   include_tasks: ./update-cache.yml
   when: ansible_system == "Linux"
+
+- name: Add in module reqs
+  include_tasks: ./install_module_requirements.yml
